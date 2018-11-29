@@ -3,7 +3,12 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-//#include <cmath>
+#include <cmath>
+
+#ifndef PI_
+#define PI_ 3.14159265358979323846  /* pi */
+#endif
+#define DegToRad(x) ((x * PI_) / 180.0)
 
 class Vector3D
 {
@@ -16,25 +21,23 @@ public:
 	 */
 	double x, y, z;
 
-	// Constructors
+	// Constructors Destructors
 	Vector3D();
+	~Vector3D();
 	Vector3D(double x, double y, double z);
 	Vector3D(const Vector3D &v2);
 
-	//IO
-
 	//Print Vector3D
 	friend std::ostream &operator << (std::ostream &out, const Vector3D &v);
-	//Input Vector3D
-	friend std::istream &operator >> (std::istream &out, Vector3D v);
 
 
 	//Operator Overloading
 
+	Vector3D operator = (const Vector3D& v2);
 	bool operator == (const Vector3D& v2) const;
-	
+
 	Vector3D operator + (const Vector3D& v2) const;
-	Vector3D& operator += (const Vector3D& v);
+	Vector3D& operator += (const Vector3D& v2);
 	
 	Vector3D operator - (const Vector3D& v2) const;
 	Vector3D& operator -= (const Vector3D& v2);
@@ -54,21 +57,46 @@ public:
 
 	//Member Functions
 
-	//Magnitude Square |v|^2
+	/**
+	 * Magnitude Square ( |v|^2 )
+	 */
 	double mag_square() const;
 
-	// Magitude / Absolute |v|
-	double mag() const;
+	/**
+	 * Norm / Magitude / Absolute ( ||v|| )
+	 */
+	double length() const;
 
-	// Normalize v = v / |v|
+	/**
+	 * Normalize Vector ( v = v / |v| )
+	 */
 	Vector3D normalize();
 
-	// Cross Product
+	/*
+	 * Cross Product ( V X V2 )
+	 */
 	Vector3D cross_product(const Vector3D& v2) const;
 
-	// 3D Distance |v - v2|
+	/**
+	 * 3D Distance |v - v2|
+	 */
 	double distance(const Vector3D& v2) const;
 
+	/**
+	 * Linear interpolation
+	 * @param factor Factor of interpolation [ 0.0 , 1.0 ]
+	 * @param v2 Second Vector 
+	 */
+	Vector3D lerp(double factor, const Vector3D& v2) const;
+
+	/**
+	 * Rotate vector around three axis.
+	 * Angle in degrees
+	 * @param ax Angle for X-axis.
+	 * @param ay Angle for Y-axis.
+	 * @param az Angle for Z-axis.
+	 */
+	void rotate(double ax, double ay, double az);
 
 };
 

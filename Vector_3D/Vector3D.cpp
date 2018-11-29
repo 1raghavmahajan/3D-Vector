@@ -6,6 +6,10 @@ Vector3D::Vector3D(): x(0), y(0), z(0)
 {
 }
 
+//Default destructor
+Vector3D::~Vector3D()
+= default;
+
 Vector3D::Vector3D(double x, double y, double z)
 {
 	this->x = x;
@@ -35,6 +39,13 @@ std::istream& operator>>(std::istream& in, Vector3D v)
 }
 
 
+Vector3D Vector3D::operator=(const Vector3D& v2)
+{
+	x = v2.x;
+	y = v2.y;
+	z = v2.z;
+	return *this;
+}
 
 bool Vector3D::operator==(const Vector3D& v2) const
 {
@@ -133,6 +144,7 @@ Vector3D& Vector3D::operator/=(double scalar)
 
 
 
+
 Vector3D Vector3D::cross_product(const Vector3D &v2) const
 {
     double ni = y*v2.z - z*v2.y;
@@ -141,7 +153,7 @@ Vector3D Vector3D::cross_product(const Vector3D &v2) const
     return Vector3D (ni, nj, nk);
 }
 
-double Vector3D::mag() const
+double Vector3D::length() const
 {
     return sqrt(mag_square());
 }
@@ -153,14 +165,35 @@ double Vector3D::mag_square() const
 
 Vector3D Vector3D:: normalize()
 {
-    assert(mag()!=0);
-    *this/=mag();
+    assert(length()!=0);
+    *this/=length();
     return *this;
 }
 
 double Vector3D::distance(const Vector3D &v2) const
 {
     Vector3D dist=*this-v2;
-    return dist.mag();
+    return dist.length();
 }
+
+Vector3D Vector3D::lerp(double factor, const Vector3D& v2) const
+{
+	return ( (*this) + ((v2 - (*this)) * factor));
+}
+
+void Vector3D::rotate(double ax, double ay, double az)
+	{
+		double a = cos(DegToRad(ax));
+		double b = sin(DegToRad(ax));
+		double c = cos(DegToRad(ay));
+		double d = sin(DegToRad(ay));
+		double e = cos(DegToRad(az));
+		double f = sin(DegToRad(az));
+		double nx = c * e * x - c * f * y + d * z;
+		double ny = (a * f + b * d * e) * x + (a * e - b * d * f) * y - b * c * z;
+		double nz = (b * f - a * d * e) * x + (a * d * f + b * e) * y + a * c * z;
+		x = nx;
+		y = ny;
+		z = nz;
+	}
 
