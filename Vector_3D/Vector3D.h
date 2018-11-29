@@ -16,8 +16,8 @@ public:
 
 	/* 
 	 * I didn't see any reason to make the vector components private. 
-	 * Any client could in any case independently modify them via a "Set" method. 
-	 * As, there's no internal state to maintain or no invariant to protect, it's better to make them private for better code readability.
+	 * Any client could in any case independently modify them if a "Set" method was created. 
+	 * As, there's no internal state to maintain or no invariant to protect, it's better to make them public for better code readability.
 	 */
 	double x, y, z;
 
