@@ -3,12 +3,12 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <cmath>
 
 #ifndef PI_
 #define PI_ 3.14159265358979323846  /* pi */
 #endif
-#define DegToRad(x) ((x * PI_) / 180.0)
+#define DEG_TO_RAD(x) ((x * PI_) / 180.0)
+
 
 class Vector3D
 {
@@ -33,7 +33,7 @@ public:
 
 	//Operator Overloading
 
-	Vector3D operator = (const Vector3D& v2);
+	Vector3D& operator = (const Vector3D& v2);
 	bool operator == (const Vector3D& v2) const;
 
 	Vector3D operator + (const Vector3D& v2) const;
@@ -43,6 +43,7 @@ public:
 	Vector3D& operator -= (const Vector3D& v2);
 
 	// Scalar Multiplication
+	friend Vector3D operator * (double scalar, const Vector3D& v2 );
 	Vector3D operator * (double scalar) const;
 	Vector3D& operator *= (double scalar);
 
@@ -90,11 +91,10 @@ public:
 	Vector3D lerp(double factor, const Vector3D& v2) const;
 
 	/**
-	 * Rotate vector around three axis.
-	 * Angle in degrees
-	 * @param ax Angle for X-axis.
-	 * @param ay Angle for Y-axis.
-	 * @param az Angle for Z-axis.
+	 * Rotate vector around three axis. Angle in degrees
+	 * @param ax Angle around X-axis.
+	 * @param ay Angle around Y-axis.
+	 * @param az Angle around Z-axis.
 	 */
 	void rotate(double ax, double ay, double az);
 
